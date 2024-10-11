@@ -2,8 +2,6 @@ const { Router } = require('express');
 const Usuario = require('../models/Usuario');
 const { validationResult, check } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const { validateJWT } = require('../middleware/validar-jwt');
-const { validateRolAdmin } = require('../middleware/validar-rol-admin');
 
 const router = Router();
 
@@ -49,7 +47,7 @@ router.post('/', [
 });
 
 // Obtener todos los usuarios
-router.get('/', [validateJWT, validateRolAdmin], async (req, res) => {
+router.get('/', [ ], async (req, res) => {
     try {
         const usuarios = await Usuario.find();
         res.send(usuarios);
@@ -60,7 +58,7 @@ router.get('/', [validateJWT, validateRolAdmin], async (req, res) => {
 });
 
 // Eliminar un usuario
-router.delete('/:id', [validateJWT, validateRolAdmin], async (req, res) => {
+router.delete('/:id', [ ], async (req, res) => {
     try {
         const { id } = req.params;
         const usuario = await Usuario.findByIdAndDelete({ _id: id });
@@ -72,7 +70,7 @@ router.delete('/:id', [validateJWT, validateRolAdmin], async (req, res) => {
 });
 
 // Actualizar un usuario
-router.put('/:usuarioId', [validateJWT, validateRolAdmin], [
+router.put('/:usuarioId', [ ], [
     check('nombre', 'invalid.nombre').not().isEmpty(),
     check('email', 'invalid.email').isEmail(),
     check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
